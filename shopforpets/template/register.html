@@ -1,0 +1,51 @@
+<html>
+{% load static %}
+    <head>
+        <title>Register page</title>
+<style>
+div {
+    width:370px;
+    height:400px;
+    margin-top:100px;
+    padding-top:10px;
+    border-radius:10px;
+    background-color:rgba(255, 255, 255, 0.418);
+
+}
+input {
+    width:300px;
+    height:25px;
+    border:none;
+    border-bottom: 2px solid ;
+    border-radius: 4px;
+}
+button {
+    width:60px;
+    height:25px;
+    border:none;
+    border-bottom: 2px solid ;
+    border-radius: 4px;
+}
+</style>
+    </head>
+
+
+<body background="{% static 'img/img.jpg' %}">
+    <center>
+    <div clas="div">
+        
+<form action="sub" method="get">
+       
+            <h1>Register Here</h1>
+            <input class="input" type="text" required name="uname" placeholder="Enter Your Name"><br><br>
+            <input class="input" type="text" required name="fname" placeholder="Enter Your First Name"><br><br>
+            <input class="input" type="text" required name="sname" placeholder="Enter Your Second Name"><br><br>
+            <input class="input" type="email" required name="email"placeholder="Enter Your Email"><br><br>
+            <input class="input" type="password" required name="pname" placeholder="Enter Your Password"><br><br>
+            <input class="input" type="password" required name="rpname"placeholder="ReEnter Your Password"><br><br>
+            <button class="button" type="submit">Submit</button>
+        </form>
+    </div>
+</center>
+</body>
+</html>

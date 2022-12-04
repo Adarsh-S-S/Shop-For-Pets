@@ -1,0 +1,51 @@
+<html>
+    {% load static %}
+    <head>
+        <title>Log in </title>
+    </head>
+</html>
+<style>
+div {
+    width:370px;
+    height:300px;
+    background-color: #e7e3e36b;
+    margin-top:100px;
+    padding-top:50px;
+    border-radius:20px;
+}
+input {
+    width:300px;
+    height:30px;
+    border:none;
+    border-bottom:2px solid brown;
+    border-radius:7px;
+    padding-left:120px;
+    margin-bottom:20px ;
+    outline:none;
+    background-color: #e7e3e36b;
+}
+button {
+    width:280px;
+    height:30px;
+    margin-top:-15px;
+    border-radius:7px;
+    border:none;
+    background-color: #e7e3e36b;
+    
+}
+</style>
+<body background="{% static 'img/img3.jpg' %}">
+    
+<center>
+    <form action="sub" method="get">
+    <div class="div">
+        <h2>Log in </h2>
+        <input class="input"  type="text" placeholder="Username" name="uname" required ><br>
+        <input class="input" type="password" placeholder="Password" name="pass" required ><br><br>
+        <button class="button" type="submit">Submit</button>
+
+    </div>
+</form>
+</center>
+
+</body>
