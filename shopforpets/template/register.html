@@ -34,7 +34,8 @@ button {
     <center>
     <div clas="div">
         
-<form action="sub" method="get">
+<form action="{% url 'registerpage' %}" method="post">
+    {% csrf_token %}
        
             <h1>Register Here</h1>
             <input class="input" type="text" required name="uname" placeholder="Enter Your Name"><br><br>

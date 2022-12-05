@@ -37,7 +37,8 @@ button {
 <body background="{% static 'img/img3.jpg' %}">
     
 <center>
-    <form action="sub" method="get">
+    <form action="{% url 'loginpage' %}" method="post">
+        {% csrf_token %}
     <div class="div">
         <h2>Log in </h2>
         <input class="input"  type="text" placeholder="Username" name="uname" required ><br>
