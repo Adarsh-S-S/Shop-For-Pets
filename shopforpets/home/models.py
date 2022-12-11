@@ -2,7 +2,7 @@ from django.db import models
 
 class PetProduct(models.Model):
     name=models.CharField(max_length=100)
-    price=model.IntegerField()
+    price=models.IntegerField()
     qty=models.IntegerField()
     img=models.ImageField(upload_to="pic")
     desc=models.TextField()

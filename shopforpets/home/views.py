@@ -2,13 +2,14 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
-from product.models import pro1,pro2,pro3
+from .models import PetProduct
 
 
 
 def index(request):
-    pro=[pro1,pro2,pro3]
-    return render(request,"index.html",{"pro":pro})
+    data=PetProduct.objects.all()
+    print(data)
+    return render(request,"index.html",{"pro":data})
 
 def register(request):
     if request.method=="POST":

@@ -196,12 +196,11 @@
                 <div class="col-md-6">
                     <div class="service-item bg-light d-flex p-4">
                         <div class="product-item position-relative bg-light d-flex flex-column text-center">
-                            <img class="img-fluid mb-4" src="/static/img/{{i.img}}" alt="">
+                            <img class="img-fluid mb-4" src="{{i.img.url}}" alt="">
                             <h6 class="text-uppercase">{{i.name}}</h6>
                             <h5 class="text-primary mb-0">{{i.price}}</h5>
                             <div class="btn-action d-flex justify-content-center">
-                                <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-cart"></i></a>
-                                <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-eye"></i></a>
+                                <a class="btn btn-primary py-2 px-3" href="{% url 'detail' %}?id={{i.id}}"><i class="bi bi-eye"></i></a>
                             </div>
                         </div>
                     </div>
