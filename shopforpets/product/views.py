@@ -5,11 +5,16 @@ from home.models import PetProduct
 from .models import Comment
 
 
+
+
 def detail(request):
     id=request.GET["id"]
     data=PetProduct.objects.get(id=id)
     total=int(data.price)-(int(data.price)*int(data.discount)/100)
     comment=Comment.objects.filter(pro_id=id)
+    response=render(request,"detail.html",{"pro":data,"total":total,"comment":comment})
+    response.set_cookie("id",data.price)
+    return response
     return render(request,"detail.html",{"pro":data,"total":total,"comment":comment})
 
 

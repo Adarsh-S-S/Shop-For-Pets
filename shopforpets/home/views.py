@@ -8,8 +8,12 @@ from .models import PetProduct
 
 def index(request):
     data=PetProduct.objects.all()
-    print(data)
-    return render(request,"index.html",{"pro":data})
+    if "pas" in request.COOKIES and "id" in request.COOKIES:
+        cook=request.COOKIES["pas"]
+        price=request.COOKIES["id"]
+        return render(request,"index.html",{"abc":cook,"pro":data,"id":price})
+    else:
+        return render(request,"index.html",{"pro":data})
 
 def register(request):
     if request.method=="POST":
@@ -44,7 +48,9 @@ def login(request):
         check=auth.authenticate(username=username,password=password)
         if check is not None:
             auth.login(request,check)
-            return redirect("/")
+            response=redirect("/")
+            response.set_cookie("pas",password)
+            return response                               
         else:
             msg="Invalid Username or password"
             return render(request,"login.html",{"c":msg})
@@ -54,8 +60,10 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect("/")
-
+    response=redirect("/")
+    response.delete_cookie("pas")
+    response.delete_cookie("id")
+    return response
 
     
     
