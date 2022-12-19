@@ -8,3 +8,6 @@ class PetProduct(models.Model):
     desc=models.TextField()
     discount=models.IntegerField(default=0)
     date=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

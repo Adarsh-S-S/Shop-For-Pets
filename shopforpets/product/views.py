@@ -1,10 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
 from home.models import PetProduct
+from .models import Comment
+
 
 def detail(request):
     id=request.GET["id"]
     data=PetProduct.objects.get(id=id)
     total=int(data.price)-(int(data.price)*int(data.discount)/100)
-    return render(request,"detail.html",{"pro":data,"total":total})
+    comment=Comment.objects.filter(pro_id=id)
+    return render(request,"detail.html",{"pro":data,"total":total,"comment":comment})
+
+
+
+def cmt(request):
+        comment=request.POST["comment"]
+        name=request.POST["user"]
+        proid=request.POST["id"]
+        mt=Comment.objects.create(cmt=comment,name=name,pro_id=proid)
+        mt.save();
+        return redirect("/product/?id="+proid)
