@@ -12,10 +12,27 @@ def detail(request):
     data=PetProduct.objects.get(id=id)
     total=int(data.price)-(int(data.price)*int(data.discount)/100)
     comment=Comment.objects.filter(pro_id=id)
-    response=render(request,"detail.html",{"pro":data,"total":total,"comment":comment})
-    response.set_cookie("id",data.price)
-    return response
-    return render(request,"detail.html",{"pro":data,"total":total,"comment":comment})
+    if "his" in request.session:
+        if id in request.session["his"]:
+            request.session["his"].remove(id)
+            request.session["his"].insert(0,id)
+        else:
+            request.session["his"].insert(0,id)
+        if len(request.session["his"])>4:
+            request.session["his"].pop()
+        print(request.session["his"])
+        recent=PetProduct.objects.filter(id__in=request.session["his"])
+        print(recent)
+        request.session.modified=True
+        return render(request,"detail.html",{"pro":data,"total":total,"comment":comment,"recent":recent})
+
+    else:
+        print("Hello")
+        request.session["his"]=[id]
+        print(request.session["his"])
+        return render(request,"detail.html",{"pro":data,"total":total,"comment":comment})
+    
+   
 
 
 
