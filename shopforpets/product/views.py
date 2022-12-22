@@ -3,6 +3,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from home.models import PetProduct
 from .models import Comment
+from django.core.cache import cache
 
 
 
@@ -31,10 +32,6 @@ def detail(request):
         request.session["his"]=[id]
         print(request.session["his"])
         return render(request,"detail.html",{"pro":data,"total":total,"comment":comment})
-    
-   
-
-
 
 def cmt(request):
         comment=request.POST["comment"]
@@ -43,3 +40,21 @@ def cmt(request):
         mt=Comment.objects.create(cmt=comment,name=name,pro_id=proid)
         mt.save();
         return redirect("/product/?id="+proid)
+
+
+
+
+
+def detail2(request):
+    id=request.GET["id"]
+    if cache.get(id):
+        print("Data from cache")
+        data=cache.get(id)
+    else:
+        data=PetProduct.objects.get(id=id)
+        print("Data From DataBase")
+        cache.set(id,data)
+
+    total=int(data.price)-(int(data.price)*int(data.discount)/100)
+    comment=Comment.objects.filter(pro_id=id)
+    return render(request,"detail.html",{"pro":data,"total":total,"comment":comment})
