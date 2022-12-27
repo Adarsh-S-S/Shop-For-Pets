@@ -9,5 +9,6 @@ urlpatterns = [
     path("register/",views.register,name="registerpage"),
     path("login/",views.login,name="loginpage"),
     path("logout/",views.logout,name="logout"),
+    path("otp/",views.otp,name="otppage"),
     path("feed/",feed.LatestNews())
 ]

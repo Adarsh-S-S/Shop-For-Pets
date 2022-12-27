@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from home.models import PetProduct
 from .models import Comment
 from django.core.cache import cache
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 
@@ -58,3 +60,14 @@ def detail2(request):
     total=int(data.price)-(int(data.price)*int(data.discount)/100)
     comment=Comment.objects.filter(pro_id=id)
     return render(request,"detail.html",{"pro":data,"total":total,"comment":comment})
+
+
+
+
+def email(request):
+    email_from =  settings.EMAIL_HOST_USER
+    email_to = ["adhuzz123@gmail.com",]
+    subject = "Testing The Process"
+    message = "If you recieve this mail then it is working."
+    send_mail(subject,message,email_from,email_to)
+    return render(request,"test.html")

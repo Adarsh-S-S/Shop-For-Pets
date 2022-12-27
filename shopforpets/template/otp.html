@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Input field</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/otp.css' %}">
+</head>
+
+<body>
+  <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autofocus Field</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/otp.css' %}">
+</head>
+<body>
+  <form method="post" action="{% url 'otppage' %}">
+    {% csrf_token %}
+    <div class="container">
+        <h1>ENTER OTP</h1>
+        <div class="userInput">
+            <input type="text" name="n1" id='ist' maxlength="1" onkeyup="clickEvent(this,'sec')">
+            <input type="text" name="n2" id="sec" maxlength="1" onkeyup="clickEvent(this,'third')">
+            <input type="text" name="n3" id="third" maxlength="1" onkeyup="clickEvent(this,'fourth')">
+            <input type="text" name="n4" id="fourth" maxlength="1" onkeyup="clickEvent(this,'fifth')">
+            <input type="text" name="n5" id="fifth" maxlength="1">
+        </div>
+        <button type="submit">CONFIRM</button><br><br>
+        <div style="color: red;" ><center>{{msg}}</center></div>
+    </div>
+  </form>
+</body>
+</html>
+ <script src="{% static 'js/otp.js' %}"></script>
+</body>
+
+</html>

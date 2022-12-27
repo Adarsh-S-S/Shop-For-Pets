@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
 from .models import PetProduct
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 
@@ -28,16 +30,17 @@ def register(request):
         if ucheck:
             msg="Username Exits"
             return render(request,"register.html",{"b":msg})
-        elif echeck:
-            msg="Email Exits"
-            return render(request,"register.html",{"b":msg})
+        
         elif password=="" or password!=repassword:
             msg="Invalid password"
             return render(request,"register.html",{"b":msg})
         else:
-            user=User.objects.create_user(username=username,first_name=firstname,last_name=secondname,email=email,password=password)
-            user.save();
-            return redirect("/")
+            request.session["his"]=[username,firstname,secondname,email,password,repassword]
+            request.session.modified = True
+            send_mail("otp validation","Your otp is 20202",settings.EMAIL_HOST_USER,[email,])
+            #user=User.objects.create_user(username=username,first_name=firstname,last_name=secondname,email=email,password=password)
+           # user.save();
+            return render(request,"otp.html")
     else:
         return render(request,"register.html")
 
@@ -64,6 +67,26 @@ def logout(request):
     response.delete_cookie("pas")
     response.delete_cookie("id")
     return response
+
+def otp(request):
+    if request.method == "POST":
+        n1=request.POST["n1"]
+        n2=request.POST["n2"]
+        n3=request.POST["n3"]
+        n4=request.POST["n4"]
+        n5=request.POST["n5"]
+        otp=n1+n2+n3+n4+n5
+        if otp=="20202":
+            li=request.session["his"]
+            user=User.objects.create_user(username=li[0],first_name=li[1],last_name=li[2],email=li[3],password=li[4])
+            user.save();
+            return redirect("/")
+        else:
+            msg="Otp Is Invalid"
+            return render(request,"otp.html",{"msg":msg})
+    else:
+        return render(request,"otp.html")
+
 
     
     
