@@ -9,13 +9,15 @@ from django.core.mail import send_mail
 
 
 def index(request):
-    data=PetProduct.objects.all()
-    if "pas" in request.COOKIES and "id" in request.COOKIES:
-        cook=request.COOKIES["pas"]
-        price=request.COOKIES["id"]
-        return render(request,"index.html",{"abc":cook,"pro":data,"id":price})
+
+    if request.method == "POST":
+        search=request.POST["msg"]
+        data=PetProduct.objects.filter(name__istartswith=search)
     else:
-        return render(request,"index.html",{"pro":data})
+        data=PetProduct.objects.all()
+
+
+    return render(request,"index.html",{"pro":data})
 
 def register(request):
     if request.method=="POST":
@@ -27,6 +29,7 @@ def register(request):
         repassword=request.POST["rpname"]
         ucheck=User.objects.filter(username=username)
         echeck=User.objects.filter(email=email)
+
         if ucheck:
             msg="Username Exits"
             return render(request,"register.html",{"b":msg})
@@ -35,11 +38,13 @@ def register(request):
             msg="Invalid password"
             return render(request,"register.html",{"b":msg})
         else:
+            l1=len(username)
+            l2=len(password)
+            l3=l1+l2*63513
+            l4=str(l3)[:5]
             request.session["his"]=[username,firstname,secondname,email,password,repassword]
             request.session.modified = True
-            send_mail("otp validation","Your otp is 20202",settings.EMAIL_HOST_USER,[email,])
-            #user=User.objects.create_user(username=username,first_name=firstname,last_name=secondname,email=email,password=password)
-           # user.save();
+            send_mail("otp validation",f"Your otp is {l4}",settings.EMAIL_HOST_USER,[email,])
             return render(request,"otp.html")
     else:
         return render(request,"register.html")
@@ -69,6 +74,7 @@ def logout(request):
     return response
 
 def otp(request):
+
     if request.method == "POST":
         n1=request.POST["n1"]
         n2=request.POST["n2"]
@@ -76,23 +82,18 @@ def otp(request):
         n4=request.POST["n4"]
         n5=request.POST["n5"]
         otp=n1+n2+n3+n4+n5
-        if otp=="20202":
-            li=request.session["his"]
+        li=request.session["his"]
+        l1=len(li[0])
+        l2=len(li[4])
+        l3=l1+l2*63513
+        l4=str(l3)[:5]
+        if otp==l4:
             user=User.objects.create_user(username=li[0],first_name=li[1],last_name=li[2],email=li[3],password=li[4])
             user.save();
+            auth.login(request,user)
             return redirect("/")
         else:
             msg="Otp Is Invalid"
             return render(request,"otp.html",{"msg":msg})
     else:
         return render(request,"otp.html")
-
-
-    
-    
-      
-    
-
-
-
-

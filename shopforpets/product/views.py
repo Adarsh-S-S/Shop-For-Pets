@@ -6,6 +6,7 @@ from .models import Comment
 from django.core.cache import cache
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http.response import JsonResponse
 
 
 
@@ -71,3 +72,19 @@ def email(request):
     message = "If you recieve this mail then it is working."
     send_mail(subject,message,email_from,email_to)
     return render(request,"test.html")
+
+
+def search(request):
+    return render(request,"search.html")
+
+def autosearch(request):
+    if 'term' in request.GET:
+        a=request.GET["term"]
+        print("hii",a)
+        pro=PetProduct.objects.filter(name__istartswith=a)
+        print(pro)
+        li=[]
+        for i in pro:
+            li.append(i.name)
+        print(li)
+        return JsonResponse(li,safe=False)
